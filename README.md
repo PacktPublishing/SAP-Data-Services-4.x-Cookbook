@@ -39,6 +39,15 @@ This book is for IT technical engineers who want to get familiar with the EIM so
 
 We also provide a PDF file that has color images of the screenshots/diagrams used in this book. [Click here to download it](https://www.packtpub.com/sites/default/files/downloads/6565EN_Graphics.pdf).
 
+### Related products
+* SAP ABAP Advanced Cookbook  [[Packt]](https://prod.packtpub.com/in/big-data-and-business-intelligence/sap-abap-advanced-cookbook?utm_source=github&utm_medium=repository&utm_campaign=9781849684880) [[Amazon]](https://www.amazon.com/dp/184968488X)
+
+* SAP BusinessObjects Reporting Cookbook  [[Packt]](https://prod.packtpub.com/in/big-data-and-business-intelligence/sap-businessobjects-reporting-cookbook?utm_source=github&utm_medium=repository&utm_campaign=9781782172437) [[Amazon]](https://www.amazon.com/dp/1782172432)
+
+* SAP HANA Cookbook  [[Packt]](https://prod.packtpub.com/in/big-data-and-business-intelligence/sap-hana-cookbook?utm_source=github&utm_medium=repository&utm_campaign=9781782177623) [[Amazon]](https://www.amazon.com/dp/1782177620)
+
+* SAP NetWeaver MDM 7.1 Administrator's Guide  [[Packt]](https://prod.packtpub.com/in//web-development/sap-netweaver-mdm-71-administrators-guide?utm_source=github&utm_medium=repository&utm_campaign=9781849682145) [[Amazon]](https://www.amazon.com/dp/1849682143)
+
 ## Get to Know the Author
 **Ivan Shomnikov**
 is a Data Science expert who specializes in BI/DWH/ETL development, with experience in Data Analytics and Data Visualization technologies. Having started his career as a database developer, he then worked for SAP CIS with the Business Objects Enterprise product stack for 2 years, after which decided to move to the back-end DWH development by working with the EIM solutions provided by SAP. He now works as a BI consultant for one of the largest SAP consultancy companies in New Zealand.
