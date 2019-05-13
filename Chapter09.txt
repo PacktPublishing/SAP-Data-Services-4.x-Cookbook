@@ -1,0 +1,63 @@
+# Create Employee table 
+
+CREATE TABLE [dbo].[EMPLOYEE](
+	[ID] [decimal](22, 0) NULL,
+	[BUSINESSENTITYID] [int] NULL,
+	[NATIONALIDNUMBER] [varchar](15) NULL,
+	[LOGINID] [varchar](256) NULL,
+	[ORGANIZATIONLEVEL] [int] NULL,
+	[JOBTITLE] [varchar](50) NULL,
+	[BIRTHDATE] [date] NULL,
+	[MARITALSTATUS] [varchar](1) NULL,
+	[GENDER] [varchar](1) NULL,
+	[HIREDATE] [date] NULL,
+	[SALARIEDFLAG] [int] NULL,
+	[VACATIONHOURS] [int] NULL,
+	[SICKLEAVEHOURS] [int] NULL,
+	[START_DT] [date] NULL,
+	[END_DT] [date] NULL,
+	[CUR_FLAG] [varchar](1) NULL
+) ON [PRIMARY]; 
+
+
+# Generate history records
+select * from HumanResources.Employee where BusinessEntityID in (1,999);
+
+insert into HumanResources.Employee 
+(BusinessEntityID,NationalIDNumber,LoginID,OrganizationNode,
+JobTitle,BirthDate,MaritalStatus,Gender,
+HireDate,SalariedFlag,VacationHours,SickLeaveHours)
+values 
+(999,'999999999','domain\johnny',null,
+'Engineer','1982-01-01','S','M',SYSDATETIME(),1,99,10);
+
+update HumanResources.Employee set JobTitle = 'CEO' 
+where BusinessEntityID = 1;
+
+
+# Pivot transform recipe
+create table Sales.AccountBalance (
+[AccountID] integer,
+[AccountNumber] integer,
+[Year] integer, 
+[Q1] decimal(10,2),
+[Q2] decimal(10,2),
+[Q3] decimal(10,2),
+[Q4] decimal(10,2));
+
+# Row 1
+insert into Sales.AccountBalance 
+		([AccountID],[AccountNumber],[Year],[Q1],[Q2],[Q3],[Q4]) 
+values	(1,100,2015,100.00,150.00,120.00,300.00);
+
+# Row 2
+insert into Sales.AccountBalance 
+		([AccountID],[AccountNumber],[Year],[Q1],[Q2],[Q3],[Q4]) 
+values	(2,100,2015,50.00,350.00,620.00,180.00);
+
+# Row 3
+insert into Sales.AccountBalance 
+		([AccountID],[AccountNumber],[Year],[Q1],[Q2],[Q3],[Q4]) 
+values	(3,200,2015,333.33,440.00,12.00,105.50);
+
+

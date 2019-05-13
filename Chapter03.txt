@@ -1,0 +1,154 @@
+# Script which determines name of the job and prepares it for dataflow input parameter
+
+print('INFO: scr_init script has started...');
+
+while ($l_JobName IS NULL)  
+	begin
+		if ($g_JobName IS NOT NULL) 
+		begin
+			print('INFO: assigning $g_JobName value'
+			||' of {$g_JobName} to a $l_JobName variable...');
+			$l_JobName = $g_JobName; 
+		end 
+		else 
+			print('INFO: global variable $g_JobName is empty,'
+			||' calculating value for $l_JobName'
+			||' using DS function...');
+			$l_JobName = job_name(); 
+			print('INFO: new value assigned to a local '
+			||'variable: $l_JobName = {$l_JobName}!');
+	end
+
+print('INFO: scr_init script has successfully completed!');
+
+
+
+# Check that job is named according to the naming standards
+if (match_regex($l_JobName,'^(job_).*$',
+				'CASE_INSENSITIVE') = 1) 
+	begin
+		print('INFO: the job name is correct!');
+	end
+else 
+	begin
+		print('WARNING: job has not been named according '
+		|| 'to the standards. '
+		|| 'Changing the name of {$l_JobName}...');
+		$l_JobName = 'Job_'||$l_JobName;
+		print('INFO: new job name is '||$l_JobName);
+	end
+
+# Date functions 
+$l_date = sysdate(); 
+print('$l_date = [$l_date]');
+
+$l_datetime = sysdate();
+print('$l_datetime = [$l_datetime]');
+
+$l_time = systime(); 
+print('$l_time = [$l_time]');
+
+$l_timestamp = systime(); 
+print('$l_timestamp = [$l_timestamp]');
+
+$l_timestamp = sysdate(); 
+print('$l_timestamp = [$l_timestamp]');
+
+
+# Operation with date functions
+
+$l_datetime = sysdate();
+print('$l_datetime = [$l_datetime]');
+
+# Extract Year from date field
+print('Year = '|| date_part($l_datetime,'YY')); 
+
+# Extract Day from date field
+print('Day = '|| date_part($l_datetime,'DD')); 
+
+# Extract Month from date field
+print('Month = '|| date_part($l_datetime,'MM')); 
+
+
+# Display day in month for the input date
+print('Day in Month = '|| day_in_month($l_datetime));
+
+# Display day in week for the input date
+print('Day in Week = '|| day_in_week($l_datetime));
+
+# Display day in year for the input date
+print('Day in Year = '|| day_in_year($l_datetime));
+
+# Display number of week in year
+print('Week in Year = '|| week_in_year($l_datetime));
+
+# Display number of week in month
+print('Week in Month = '|| week_in_month($l_datetime));
+
+# Display last day of the current month in the provided input date
+print('Last date of the date month = '|| last_date($l_datetime));
+
+# Conversion functions
+$l_date = to_date('01/05/2015','DD/MM/YYYY'); 
+print('Date = '|| $l_date );
+
+# Add 5 days to the $l_date value
+print('{$l_date} + 5 days = '|| $l_date + num_to_interval(5,'D') );
+
+# Calculate first day of next month
+print('First day of next month = '|| last_date($l_date) + num_to_interval(1,'D') ); 
+
+# Substract 1 second out of the datetime
+$l_datetime = to_date('01/05/2015 00:00:00','DD/MM/YYYY HH24:MI:SS');
+print('{$l_datetime} minus 1 second = '|| $l_datetime - num_to_interval(1,'S') );
+
+
+# Example of sql() function
+# returning multiple fields from a database table
+$l_row = sql('DWH','SELECT CONVERT(VARCHAR(10),ACCOUNTKEY) '||
+					' +\',\'+ CONVERT(VARCHAR(50),ACCOUNTDESCRIPTION) '||
+					'FROM DBO.DIMACCOUNT');
+
+$l_AccountKey = word_ext($l_row,1,',');
+$l_AccountDescription = word_ext($l_row,2,','); 
+
+print('AccountKey = {$l_AccountKey}');
+print('AccountDescription = {$l_AccountDescription}');
+
+
+# Conditional functions
+$l_string = 'Length of that string is 38 characters';
+$l_result = ifthenelse(length($l_string) = 8,print('TRUE'),print('FALSE'));
+
+$l_string = 'Length of that string is 38 characters';
+$l_result = decode(
+	length($l_string) = 10, print('TRUE'),
+	length($l_string) = 12, print('TRUE'),
+	length($l_string) = 38, print('TRUE'),
+	print('FALSE')
+);
+
+$l_string = NULL;
+$l_string = nvl($l_string,'Empty string');
+print($l_string);
+
+
+# Custom function
+try
+	begin
+		$l_Date = to_date($p_InputDate,'DD/MM/YYYY');
+		$l_Days = num_to_interval($p_InputDays,'D');	
+	end
+catch ( all )
+	begin
+		print('fn_add_days() FAILED : check input parameters');
+		raise_exception('fn_add_days() FAILED : check input parameters: '||
+		' Date format DD/MM/YYYY and number of days should be an integer value');
+	end
+
+$l_Result = $l_Date + $l_Days; 
+
+Return $l_Result;  
+
+
+

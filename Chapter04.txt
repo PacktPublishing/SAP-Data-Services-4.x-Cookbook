@@ -1,0 +1,43 @@
+# Create stage table
+CREATE TABLE dbo.Person 
+(
+	FirstName varchar(50),
+	LastName varchar(50),
+	Age integer
+);	
+
+# Update table
+update dbo.person_details set country = 'USA' 
+where firstname = 'Samantha' and lastname = 'Smith' and country = 'United States';
+
+delete from dbo.person_details 
+where firstname = 'Samantha' and lastname = 'Smith' and country = 'United Kingdom';
+
+update Production.ProductDescription set Description = 'Enhanced Chromoly steel.' 
+where Description = 'Chromoly steel.';
+
+
+select EnglishDescription from dbo.DimProduct where EnglishDescription like '%Chromoly steel%';
+
+
+SELECT CurrencyAlternateKey, CurrencyName 
+INTO STAGE.dbo.NewCurrency
+FROM AdventureWorks_DWH.dbo.DimCurrency;
+
+ALTER TABLE STAGE.dbo.NewCurrency 
+ADD PRIMARY KEY (CurrencyAlternateKey);
+
+
+# Case transform recipe
+# Average vacation hours for all males in Production department
+select avg(VacationHours) as AvgVacHrs from dbo.DimEmployee where DepartmentName = 'Production' and Gender = 'M' and Status = 'Current';
+
+# Average sick hours for all females in Production department
+select avg(SickLeaveHours) as AvgSickHrs from dbo.DimEmployee where DepartmentName = 'Production' and Gender = 'F' and Status = 'Current';
+
+# Average base rate for all employees in Quality Assurance department
+select avg(BaseRate) as AvgBaseRate from dbo.DimEmployee where DepartmentName = 'Quality Assurance' and Status = 'Current';	
+
+
+
+

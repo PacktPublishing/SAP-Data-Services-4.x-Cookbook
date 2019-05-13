@@ -1,0 +1,41 @@
+# Select root nodes
+select CURRENT_LEAF from dbo.LOCATIONS_TREE_HORIZONTAL where LEAF_LEVEL = 0 order by CURRENT_LEAF;
+select ANCESTOR from dbo.LOCATIONS_TREE_VERTICAL where DEPTH = 0 and ROOT_FLAG = 1 order by ANCESTOR;
+
+
+# Select Aurora nodes for US
+select * from dbo.LOCATIONS_TREE_HORIZONTAL where LEVEL0 = 'United States' and CURRENT_LEAF = 'Aurora';
+select * from dbo.LOCATIONS_TREE_VERTICAL where ANCESTOR = 'United States' and DESCENDENT = 'Aurora'; 
+
+# RT Request XML
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<xsd:element name="Request" >
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="CITY" type="xsd:string"/>
+        <xsd:element name="STATEPROVINCECODE" type="xsd:string"/>
+        <xsd:element name="COUNTRYREGIONCODE" type="xsd:string"/>
+        <xsd:element name="LANGUAGE" type="xsd:string"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>
+
+
+# RT Response XML
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<xsd:element name="Response" >
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="CITY" type="xsd:string"/>
+        <xsd:element name="POSTALCODE" type="xsd:string"/>
+        <xsd:element name="STATEPROVINCENAME" type="xsd:string"/>
+        <xsd:element name="COUNTRYREGIONNAME" type="xsd:string"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>
+
+

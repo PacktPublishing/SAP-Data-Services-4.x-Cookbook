@@ -1,0 +1,28 @@
+# Building external ETL audit
+
+create table dbo.etl_audit (
+	job_run_id integer, 
+	workflow_status varchar(50),
+	job_name varchar(255),
+	start_dt datetime,
+	end_dt datetime,
+	process_name varchar(255)
+);
+
+
+$v_process_name = job_name();
+$v_job_run_id = job_run_id();
+
+# Insert audit record
+sql('DS_STAGE',
+	' insert into dbo.etl_audit (job_run_id, workflow_status, job_name, start_dt, end_dt, process_name) '||
+	' values('|| $v_job_run_id ||', '|| '\'STARTED\'' ||', \''|| job_name() ||'\', SYSDATETIME(), NULL, \''|| $v_process_name ||'\')'
+);
+
+
+# Update ETL audit record
+sql('DS_STAGE',
+	' update dbo.etl_audit '||
+	'   set workflow_status = '||'\'COMPLETED\''||', end_dt = SYSDATETIME() '||
+	' where job_run_id = '|| $v_job_run_id ||' and process_name = \''|| $v_process_name ||'\''
+);

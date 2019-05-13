@@ -1,0 +1,3 @@
+# Lookup with sql() function
+sql('OLTP','select PHONENUMBER from Person.PERSONPHONE where BUSINESSENTITYID = [Get_Country.BUSINESSENTITYID]')
+

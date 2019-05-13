@@ -1,0 +1,3 @@
+# Command to create database in SQL Server 
+CREATE DATABASE AdventureWorks_DWH ON 
+(FILENAME = 'C:\AdventureWorks\AdventureWorksDW2012_Data.mdf'), (FILENAME = 'C:\AdventureWorks\AdventureWorksDW2012_Log.ldf') FOR ATTACH;

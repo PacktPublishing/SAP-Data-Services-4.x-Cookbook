@@ -1,0 +1,98 @@
+# Insert new records into source OLTP tables to test ETL 
+# populating DimSalesTerritory
+
+USE [AdventureWorks_OLTP]
+GO
+
+# Insert new sales territory
+INSERT INTO [Sales].[SalesTerritory]
+           ([Name], [CountryRegionCode], [Group], [SalesYTD], [SalesLastYear]
+           ,[CostYTD], [CostLastYear], [rowguid], [ModifiedDate])
+     VALUES
+           ('Russia', 'RU', 'Russia', 9000000.00, 0.00
+           ,0.00, 0.00, NEWID(), GETDATE());
+
+# Insert new state
+INSERT INTO [Person].[StateProvince]
+           ([StateProvinceCode], [CountryRegionCode], [IsOnlyStateProvinceFlag]
+           ,[Name], [TerritoryID], [rowguid], [ModifiedDate])
+     VALUES
+           ('CR','RU', 1, 'Crimea', 12, NEWID(), GETDATE());
+
+GO
+
+# Preparing test data to populate DimGeography
+# Insert new records into source OLTP tables to test ETL 
+# populating DimGeography dimension
+
+USE [AdventureWorks_OLTP]
+GO
+
+# Insert new address
+INSERT INTO [Person].[Address]
+           ([AddressLine1], [AddressLine2], [City], [StateProvinceID]
+           ,[PostalCode], [SpatialLocation], [rowguid], [ModifiedDate])
+     VALUES
+           ('10 Suvorova St.',NULL, 'Sevastopol', 182, '299011', NULL, NEWID(), GETDATE());
+
+GO
+
+
+# Continuous workflow
+$l_exist = file_exists($p_Directory||$p_File);
+
+if ($l_exist = 1)
+	begin
+	print('Check: file exists');
+	Return 0;
+	end 
+else 
+	begin
+	print('Check: file does not exist');
+	Return 1;
+	End
+
+	
+$l_Directory = 'C:\\AW\\Files\\';
+$l_File = 'flag.txt';
+
+$g_count = $g_count + 1;
+
+print('Execution #'||$g_count);
+print('Starting  '||workflow_name()||' ...');
+sleep(10000);
+print('Finishing '||workflow_name()||' ...');
+
+
+# Peeking into DS repository
+select 
+	descen_obj_type, descen_obj_r_type, count(*) 
+from 
+	dbo.al_parent_child 
+group by 
+	descen_obj_type, descen_obj_r_type; 
+
+	
+select * 
+from 
+	dbo.al_parent_child 
+where 
+	descen_obj = 'DF_Transform_DimGeography';
+
+	
+select 
+	parent_obj, descen_obj_desc, descen_obj_usage, descen_obj_key, descen_obj_ds, descen_obj_owner 
+from 
+	dbo.al_parent_child
+where descen_obj = 'SALESTERRITORY'; 
+
+
+select * 
+from dbo.al_langtext txt
+	JOIN dbo.al_parent_child pc
+	on txt.parent_objid = pc.descen_obj_key
+where  
+	pc.descen_obj = 'WF_continuous';
+
+	
+

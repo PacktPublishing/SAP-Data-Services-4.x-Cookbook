@@ -1,0 +1,42 @@
+# Validation function to check if the passed value equals to 'Paris'
+
+# Wrap the function in the try-catch block. We do not want to fail the dataflow process if 
+# the function itself fails. 
+
+try
+	begin
+
+		# Assign input parameter value to a local variable
+		$l_City = $p_City; 
+		$l_AddressID = $p_AddressID; 
+
+		# Default "Success" result status 
+		$l_Result = 1; 
+
+		if ($l_City = 'Paris')
+   		begin
+	 		# Change to "Failure" result status
+      		$l_Result = 0; 
+   		end 
+
+		# Returning result status
+		Return $l_Result; 
+
+	end
+catch ( all )
+	begin
+		# writing information about the failure in the trace log
+		print('Validation function fn_check_Paris() failed with error: '||
+		error_message()||' while processing AddressID = {$l_AddressID} with City = {$l_City}');
+		
+		# Returning the result status 
+		Return $l_Result; 
+	end
+
+
+# Select parsed results
+select DATA,EMAIL,PHONE,GIVEN_NAME,GIVEN_NAME_2ND,FAMILY_NAME,
+	GENDER_STANDARDIZED
+from dbo.CLEANSE_RESULT;
+
+
