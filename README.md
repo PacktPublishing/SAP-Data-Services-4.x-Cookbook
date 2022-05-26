@@ -1,3 +1,7 @@
+## [Get this title for $10 on Packt's Spring Sale](https://www.packt.com/B02937?utm_source=github&utm_medium=packt-github-repo&utm_campaign=spring_10_dollar_2022)
+-----
+For a limited period, all eBooks and Videos are only $10. All the practical content you need \- by developers, for developers
+
 # SAP Data Services 4.x Cookbook
 
 <a href="https://www.packtpub.com/big-data-and-business-intelligence/sap-data-services-4x-cookbook?utm_source=github&utm_medium=repository&utm_campaign=9781782176565 "><img src="https://d1ldz4te4covpm.cloudfront.net/sites/default/files/imagecache/ppv4_main_book_cover/B02937_MockupCover_Cookbook_Low.jpg" alt="SAP Data Services 4.x Cookbook" height="256px" align="right"></a>
